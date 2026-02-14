@@ -1,0 +1,14 @@
+# Rust build artifacts
+/target/
+
+.vscode/
+
+# OS
+.DS_Store
+
+# Build outputs
+dist/
+
+*.wasm
+pkg/
+wasm-pack.log

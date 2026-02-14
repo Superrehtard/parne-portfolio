@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --text-primary: #e0e0e0;
+  --text-muted: #888;
+  --accent: #E07A3A;
+  --error: #ef4444;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-size: 14px;
+  --line-height: 1.6;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  color: var(--text-primary);
+}
+
+.terminal-wrapper {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.terminal {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+}
+
+.input-line {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.prompt-user, .prompt-host { color: var(--accent); }
+.prompt-path { color: #7dd3fc; }
+.prompt-at, .prompt-colon, .prompt-dollar { color: var(--text-muted); }
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--font-size);
+  caret-color: var(--accent);
+}
+
+.output-command { color: var(--text-primary); }
+.output-line { color: var(--text-primary); }
