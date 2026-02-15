@@ -67,5 +67,24 @@ html, body {
   caret-color: var(--accent);
 }
 
+.welcome-banner {
+      margin-bottom: 1rem;
+  }
+
+  .banner-ascii {
+      color: var(--accent);
+      font-size: 10px;
+      line-height: 1.2;
+  }
+
+  .banner-message {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+  }
+
 .output-command { color: var(--text-primary); }
 .output-line { color: var(--text-primary); }
+.line-normal { color: var(--text-primary); }
+.line-accent { color: var(--accent); }
+.line-error { color: var(--error); }
+.line-muted { color: var(--text-muted); }
