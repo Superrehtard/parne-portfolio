@@ -79,5 +79,11 @@ pub fn all_commands() -> Vec<CommandInfo> {
             usage: "tree <path>",
             hidden: false,
         },
+        CommandInfo {
+            name: "theme",
+            description: "Change terminal theme/effects",
+            usage: "theme [claude|green|amber|crt|matrix]",
+            hidden: false,
+        },
     ]
 }

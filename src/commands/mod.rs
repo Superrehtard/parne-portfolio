@@ -1,7 +1,10 @@
 pub mod filesystem;
 pub mod registry;
+pub mod theme;
 
-use crate::{filesystem::model::VirtualFs, parser::tokenizer::ParsedCommand};
+use crate::{
+    filesystem::model::VirtualFs, parser::tokenizer::ParsedCommand, state::theme::ThemeState,
+};
 use registry::all_commands;
 
 pub struct CommandOutput {
@@ -18,7 +21,12 @@ pub enum LineStyle {
     Muted,
 }
 
-pub fn dispatch(cmd: &ParsedCommand, fs: &VirtualFs, cwd: &mut String) -> CommandOutput {
+pub fn dispatch(
+    cmd: &ParsedCommand,
+    fs: &VirtualFs,
+    cwd: &mut String,
+    theme: &ThemeState,
+) -> CommandOutput {
     match cmd.command.as_str() {
         "help" => help_command(),
         "about" => simple_output(vec![
@@ -104,6 +112,7 @@ pub fn dispatch(cmd: &ParsedCommand, fs: &VirtualFs, cwd: &mut String) -> Comman
         "ls" => filesystem::ls(fs, cwd, &cmd.args),
         "cat" => filesystem::cat(fs, cwd, &cmd.args),
         "tree" => filesystem::tree(fs, cwd, &cmd.args),
+        "theme" => theme::theme_command(&cmd.args, theme),
         unknown => simple_output(vec![
             (
                 &format!("  Command not found: {}", unknown),

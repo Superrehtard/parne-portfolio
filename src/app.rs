@@ -1,8 +1,10 @@
 use crate::commands::{self, LineStyle};
+use crate::components::matrix_rain::MatrixRain;
 use crate::components::typewriter::TypewriterLine;
 use crate::components::welcome::WelcomeBanner;
 use crate::filesystem::builder;
 use crate::parser::tokenizer;
+use crate::state::theme::ThemeState;
 use leptos::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -19,6 +21,8 @@ struct OutputBlock {
 pub fn App() -> impl IntoView {
     let input_ref = NodeRef::<leptos::html::Input>::new();
     let output_ref = NodeRef::<leptos::html::Div>::new();
+
+    let theme = ThemeState::new();
 
     // Reactive signals - these are like react's useState
     // RwSignal means "readable and writable signal"
@@ -46,7 +50,7 @@ pub fn App() -> impl IntoView {
                 let cmd = input_value.get();
                 let mut current_cwd = cwd.get();
                 let parsed = tokenizer::parse(&cmd);
-                let result = commands::dispatch(&parsed, &fs.get(), &mut current_cwd);
+                let result = commands::dispatch(&parsed, &fs.get(), &mut current_cwd, &theme);
                 cwd.set(current_cwd);
 
                 if result.clear_screen {
@@ -196,7 +200,18 @@ pub fn App() -> impl IntoView {
     };
 
     view! {
-        <div class="terminal-wrapper" on:click=focus_input>
+        <div
+            class=move || {
+                let mut classes = vec!["terminal-wrapper"];
+                classes.push(theme.color_scheme.get().css_class());
+                if theme.crt_enabled.get() {
+                    classes.push("crt");
+                }
+                classes.join(" ")
+            }
+            on:click=focus_input
+        >
+            {move || theme.matrix_rain.get().then(|| view! { <MatrixRain /> })}
             <div class="terminal">
                 <div class="terminal-output" node_ref=output_ref>
                     <WelcomeBanner />
