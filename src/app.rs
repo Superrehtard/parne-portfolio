@@ -1,3 +1,4 @@
+use crate::commands::games::ActiveGame;
 use crate::commands::{self, LineStyle};
 use crate::components::matrix_rain::MatrixRain;
 use crate::components::typewriter::TypewriterLine;
@@ -30,6 +31,7 @@ pub fn App() -> impl IntoView {
     let (input_value, set_input_value) = signal(String::new());
     let (history, set_history) = signal(Vec::<String>::new());
     let (history_idx, set_history_idx) = signal::<Option<usize>>(None);
+    let (active_game, set_active_game) = signal::<Option<ActiveGame>>(None);
     let cwd = RwSignal::new("~".to_string());
     let fs = RwSignal::new(builder::build_default_fs());
 
@@ -48,10 +50,75 @@ pub fn App() -> impl IntoView {
         match ev.key().as_str() {
             "Enter" => {
                 let cmd = input_value.get();
+                let trimmed = cmd.trim().to_string();
+
+                if active_game.get().is_some() && trimmed.to_lowercase() == "quit" {
+                    set_active_game.set(None);
+                    set_output.update(|out| {
+                        for block in out.iter_mut() {
+                            block.animate = false;
+                        }
+                        let id = out.len() as u32;
+                        out.push(OutputBlock {
+                            id,
+                            command: trimmed.clone(),
+                            lines: vec![("  Game exited.".to_string(), LineStyle::Accent)],
+                            animate: false,
+                        });
+                    });
+                    if !trimmed.is_empty() {
+                        set_history.update(|h| h.push(trimmed));
+                    }
+                    set_history_idx.set(None);
+                    set_input_value.set(String::new());
+                    return;
+                }
+
+                if let Some(mut game) = active_game.get() {
+                    let result = game.handle_input(&trimmed);
+                    let game_finished = game.is_finished();
+
+                    set_output.update(|out| {
+                        for block in out.iter_mut() {
+                            block.animate = false;
+                        }
+                        let id = out.len() as u32;
+                        out.push(OutputBlock {
+                            id,
+                            command: trimmed.clone(),
+                            lines: result.lines,
+                            animate: false,
+                        });
+                    });
+
+                    if game_finished {
+                        set_active_game.set(None);
+                    } else {
+                        set_active_game.set(Some(game));
+                    }
+
+                    if !trimmed.is_empty() {
+                        set_history.update(|h| h.push(trimmed));
+                    }
+                    set_history_idx.set(None);
+                    set_input_value.set(String::new());
+                    return;
+                }
+
                 let mut current_cwd = cwd.get();
                 let parsed = tokenizer::parse(&cmd);
-                let result = commands::dispatch(&parsed, &fs.get(), &mut current_cwd, &theme);
+                let result = commands::dispatch(
+                    &parsed,
+                    &fs.get(),
+                    &mut current_cwd,
+                    &theme,
+                    &history.get(),
+                );
                 cwd.set(current_cwd);
+
+                if let Some(game) = result.start_game {
+                    set_active_game.set(Some(game));
+                }
 
                 if result.clear_screen {
                     set_output.set(vec![]);

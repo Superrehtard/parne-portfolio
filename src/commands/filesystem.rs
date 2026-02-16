@@ -6,6 +6,7 @@ pub fn pwd(cwd: &str) -> CommandOutput {
         lines: vec![(cwd.to_string(), LineStyle::Normal)],
         clear_screen: false,
         typewriter: true,
+        start_game: None,
     }
 }
 
@@ -23,12 +24,14 @@ pub fn cd(fs: &VirtualFs, cwd: &mut String, args: &[String]) -> CommandOutput {
             lines: vec![],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         }
     } else if fs.is_file(&resolved) {
         CommandOutput {
             lines: vec![(format!("cd: not a directory: {}", target), LineStyle::Error)],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         }
     } else {
         CommandOutput {
@@ -38,6 +41,7 @@ pub fn cd(fs: &VirtualFs, cwd: &mut String, args: &[String]) -> CommandOutput {
             )],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         }
     }
 }
@@ -64,6 +68,7 @@ pub fn ls(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
                 lines,
                 clear_screen: false,
                 typewriter: true,
+                start_game: None,
             }
         }
         None => CommandOutput {
@@ -76,6 +81,7 @@ pub fn ls(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
             )],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         },
     }
 }
@@ -88,6 +94,7 @@ pub fn cat(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
                 lines: vec![("cat: missing file argument".to_string(), LineStyle::Error)],
                 clear_screen: false,
                 typewriter: true,
+                start_game: None,
             };
         }
     };
@@ -99,6 +106,7 @@ pub fn cat(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
             lines: vec![(format!("cat: {}: Is a directory", target), LineStyle::Error)],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         };
     }
 
@@ -112,12 +120,14 @@ pub fn cat(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
                 lines,
                 clear_screen: false,
                 typewriter: true,
+                start_game: None,
             }
         }
         None => CommandOutput {
             lines: vec![(format!("cat: {}: No such file", target), LineStyle::Error)],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         },
     }
 }
@@ -136,6 +146,7 @@ pub fn tree(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
                 .collect(),
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         },
         None => CommandOutput {
             lines: vec![(
@@ -144,6 +155,7 @@ pub fn tree(fs: &VirtualFs, cwd: &str, args: &[String]) -> CommandOutput {
             )],
             clear_screen: false,
             typewriter: true,
+            start_game: None,
         },
     }
 }

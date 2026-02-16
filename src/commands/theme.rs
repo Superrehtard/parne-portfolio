@@ -42,6 +42,7 @@ fn theme_help() -> CommandOutput {
         ],
         clear_screen: false,
         typewriter: true,
+        start_game: None,
     }
 }
 
@@ -56,6 +57,7 @@ fn set_color_scheme(name: &str, theme: &ThemeState) -> CommandOutput {
                 )],
                 clear_screen: false,
                 typewriter: false,
+                start_game: None,
             }
         }
         None => CommandOutput {
@@ -68,6 +70,7 @@ fn set_color_scheme(name: &str, theme: &ThemeState) -> CommandOutput {
             ],
             clear_screen: false,
             typewriter: false,
+            start_game: None,
         },
     }
 }
@@ -88,6 +91,7 @@ fn toggle_crt(args: &[String], theme: &ThemeState) -> CommandOutput {
         lines: vec![(msg.to_string(), LineStyle::Accent)],
         clear_screen: false,
         typewriter: false,
+        start_game: None,
     }
 }
 
@@ -108,5 +112,6 @@ fn toggle_matrix(args: &[String], theme: &ThemeState) -> CommandOutput {
         lines: vec![(msg.to_string(), LineStyle::Accent)],
         clear_screen: false,
         typewriter: false,
+        start_game: None,
     }
 }

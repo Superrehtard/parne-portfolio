@@ -85,5 +85,72 @@ pub fn all_commands() -> Vec<CommandInfo> {
             usage: "theme [claude|green|amber|crt|matrix]",
             hidden: false,
         },
+        CommandInfo {
+            name: "history",
+            description: "Show command history",
+            usage: "history",
+            hidden: false,
+        },
+        CommandInfo {
+            name: "echo",
+            description: "Print text",
+            usage: "echo <text>",
+            hidden: false,
+        },
+        CommandInfo {
+            name: "whoami",
+            description: "Print current user",
+            usage: "whoami",
+            hidden: false,
+        },
+        CommandInfo {
+            name: "date",
+            description: "Print current date",
+            usage: "date",
+            hidden: false,
+        },
+        // Hidden easter eggs
+        CommandInfo {
+            name: "sudo",
+            description: "Superuser do",
+            usage: "sudo <command>",
+            hidden: true,
+        },
+        CommandInfo {
+            name: "rm",
+            description: "Remove files",
+            usage: "rm <file>",
+            hidden: true,
+        },
+        CommandInfo {
+            name: "neofetch",
+            description: "System info",
+            usage: "neofetch",
+            hidden: true,
+        },
+        CommandInfo {
+            name: "cowsay",
+            description: "Cow says moo",
+            usage: "cowsay [message]",
+            hidden: true,
+        },
+        CommandInfo {
+            name: "exit",
+            description: "Exit terminal",
+            usage: "exit",
+            hidden: true,
+        },
+        CommandInfo {
+            name: "ttt",
+            description: "Play Tic-Tac-Toe",
+            usage: "ttt",
+            hidden: false,
+        },
+        CommandInfo {
+            name: "typing",
+            description: "Typing speed test",
+            usage: "typing",
+            hidden: false,
+        },
     ]
 }

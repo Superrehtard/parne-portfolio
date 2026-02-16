@@ -11,7 +11,7 @@ pub fn MatrixRain() -> impl IntoView {
             return;
         };
         let window = web_sys::window().unwrap();
-        let document = window.document().unwrap();
+        let _document = window.document().unwrap();
 
         let width = window.inner_width().unwrap().as_f64().unwrap() as u32;
         let height = window.inner_height().unwrap().as_f64().unwrap() as u32;
@@ -62,7 +62,7 @@ pub fn MatrixRain() -> impl IntoView {
                     drops[i] = 0.0;
                 }
 
-                drops[i] += 1.0;
+                drops[i] += 1.2;
             }
 
             // Request next frame
@@ -88,7 +88,7 @@ pub fn MatrixRain() -> impl IntoView {
     view! {
         <canvas
             node_ref=canvas_ref
-            style="position:fixed;top:0;left:0;z-index:0;opacity:0.15;pointer-events:none;"
+            style="position:fixed;top:0;left:0;z-index:0;opacity:0.2;pointer-events:none;"
         />
     }
 }
