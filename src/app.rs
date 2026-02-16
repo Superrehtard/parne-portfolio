@@ -1,6 +1,7 @@
 use crate::commands::games::ActiveGame;
 use crate::commands::{self, LineStyle};
 use crate::components::matrix_rain::MatrixRain;
+use crate::components::mobile_toolbar::MobileToolbar;
 use crate::components::typewriter::TypewriterLine;
 use crate::components::welcome::WelcomeBanner;
 use crate::filesystem::builder;
@@ -334,6 +335,7 @@ pub fn App() -> impl IntoView {
                     />
                 </div>
             </div>
+            <MobileToolbar />
         </div>
     }
 }

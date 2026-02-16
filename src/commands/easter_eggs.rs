@@ -1,7 +1,7 @@
 use crate::commands::{CommandOutput, LineStyle};
 
 pub fn sudo(args: &[String]) -> CommandOutput {
-    let cmd_text = if args.is_empty() {
+    let _cmd_text = if args.is_empty() {
         "sudo".to_string()
     } else {
         format!("sudo {}", args.join(" "))
@@ -9,10 +9,6 @@ pub fn sudo(args: &[String]) -> CommandOutput {
 
     CommandOutput {
         lines: vec![
-            (
-                format!("  [sudo] password for visitor: "),
-                LineStyle::Normal,
-            ),
             (
                 "  Nice try! But you don't have root access here.".to_string(),
                 LineStyle::Error,
