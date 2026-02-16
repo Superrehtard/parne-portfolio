@@ -39,10 +39,34 @@ pub fn App() -> impl IntoView {
     Effect::new(move || {
         output.track();
 
+        let window = web_sys::window().unwrap();
+
         if let Some(el) = output_ref.get() {
+            let el_clone = el.clone();
             request_animation_frame(move || {
+                el_clone.set_scroll_top(el_clone.scroll_height());
+            });
+        }
+
+        if let Some(el) = output_ref.get() {
+            let el_clone = el.clone();
+            let cb = wasm_bindgen::closure::Closure::once_into_js(move || {
+                el_clone.set_scroll_top(el_clone.scroll_height());
+            });
+            let _ = window.set_timeout_with_callback_and_timeout_and_arguments_0(
+                cb.as_ref().unchecked_ref(),
+                500,
+            );
+        }
+
+        if let Some(el) = output_ref.get() {
+            let cb = wasm_bindgen::closure::Closure::once_into_js(move || {
                 el.set_scroll_top(el.scroll_height());
             });
+            let _ = window.set_timeout_with_callback_and_timeout_and_arguments_0(
+                cb.as_ref().unchecked_ref(),
+                2000,
+            );
         }
     });
 
@@ -299,11 +323,14 @@ pub fn App() -> impl IntoView {
                                 </div>
                                 <div>
                                     {
+                                        let mut cumulative_delay: i32 = 0;
                                         lines.into_iter().map(|(text, style)| {
                                             let class = line_class(&style);
+                                            let delay = cumulative_delay;
+                                            cumulative_delay += (text.len() as i32) * 12 + 100;
                                             view! {
                                                 <div class=class>
-                                                    <TypewriterLine text=text animate=should_animate />
+                                                    <TypewriterLine text=text animate=should_animate delay_ms=delay/>
                                                 </div>
                                             }
                                         }).collect::<Vec<_>>()
@@ -312,6 +339,7 @@ pub fn App() -> impl IntoView {
                             </div>
                         }
                     }).collect::<Vec<_>>()}
+                    <div class="scroll-anchor"></div>
                 </div>
                 <div class="input-line">
                     <span class="prompt-user">"visitor"</span>

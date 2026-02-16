@@ -3,7 +3,11 @@ use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 
 #[component]
-pub fn TypewriterLine(text: String, #[prop(default = true)] animate: bool) -> impl IntoView {
+pub fn TypewriterLine(
+    text: String,
+    #[prop(default = true)] animate: bool,
+    #[prop(default = 0)] delay_ms: i32,
+) -> impl IntoView {
     if !animate {
         return view! { <span>{text}</span> }.into_any();
     }
@@ -24,7 +28,7 @@ pub fn TypewriterLine(text: String, #[prop(default = true)] animate: bool) -> im
             });
             let _ = window.set_timeout_with_callback_and_timeout_and_arguments_0(
                 cb.as_ref().unchecked_ref(),
-                (i as i32) * 12,
+                delay_ms + (i as i32) * 12,
             );
         }
     });

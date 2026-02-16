@@ -44,6 +44,7 @@ html, body {
     flex: 1;
     overflow-y: auto;
     padding-bottom: 1rem;
+    white-space: pre-wrap;
 }
 
 .input-line {
@@ -75,11 +76,21 @@ html, body {
     color: var(--accent);
     font-size: 10px;
     line-height: 1.2;
+    height: 8em;
+    overflow: hidden;
 }
 
 .banner-message {
     color: var(--text-muted);
     margin-top: 0.5rem;
+}
+
+.banner-scene {
+    color: var(--accent);
+    font-size: 12px;
+    line-height: 1.1;
+    height: 13em;
+    overflow: hidden;
 }
 
 .output-command { color: var(--text-primary); }
@@ -252,4 +263,13 @@ html, body {
 .terminal-output {
     scrollbar-width: thin;
     scrollbar-color: var(--accent) var(--bg-primary);
+}
+
+.terminal-output * {
+    overflow-anchor: none;
+}
+
+.scroll-anchor {
+    overflow-anchor: auto;
+    height: 1px;
 }
